@@ -1,0 +1,63 @@
+<!-- templates/initiate_payment.html -->
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Initiate Payment</h2>
+  <form id="paymentForm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="amount" class="form-label">Amount (ETB)</label>
+      <input type="number" class="form-control" id="amount" name="amount" value="100" required>
+    </div>
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" class="form-control" id="email" name="email" value="customer@example.com" required>
+    </div>
+    <div class="mb-3">
+      <label for="first_name" class="form-label">First Name</label>
+      <input type="text" class="form-control" id="first_name" name="first_name" value="John" required>
+    </div>
+    <div class="mb-3">
+      <label for="last_name" class="form-label">Last Name</label>
+      <input type="text" class="form-control" id="last_name" name="last_name" value="Doe" required>
+    </div>
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number</label>
+      <input type="tel" class="form-control" id="phone" name="phone" value="0912345678" required>
+    </div>
+    <button type="submit" class="btn btn-success">Pay Now</button>
+  </form>
+</div>
+
+<script src="https://checkout.chapa.co/checkout.js"></script>
+<script>
+  document.getElementById('paymentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const txRef = 'chapa-' + Date.now();
+    const amount = document.getElementById('amount').value;
+    const email = document.getElementById('email').value;
+    const firstName = document.getElementById('first_name').value;
+    const lastName = document.getElementById('last_name').value;
+    const phone = document.getElementById('phone').value;
+
+    ChapaCheckout({
+      publicKey: "{{ chapa_public_key }}",
+      tx_ref: txRef,
+      amount: amount,
+      currency: "ETB",
+      email: email,
+      first_name: firstName,
+      last_name: lastName,
+      phone_number: phone,
+      callback_url: "{{ callback_url }}",
+      return_url: "{{ return_url }}",
+      customization: {
+        title: "Feel Good Coffee",
+        description: "Payment for your coffee order"
+      }
+    });
+  });
+</script>
+{% endblock %}
