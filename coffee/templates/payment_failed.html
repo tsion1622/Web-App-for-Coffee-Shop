@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Payment Failed</h2>
+  <p>Sorry, your payment could not be verified.</p>
+  <p>Error: {{ error }}</p>
+  <a href="{% url 'initiate_payment' %}" class="btn btn-secondary">Try Again</a>
+</div>
+{% endblock %}
