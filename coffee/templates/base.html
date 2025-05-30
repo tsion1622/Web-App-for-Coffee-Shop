@@ -45,7 +45,7 @@
             </li>
           </ul>
 
-          <!-- Right side: Search, Cart, User -->
+          <!-- Right side -->
           <form class="d-flex me-3" method="get" action="{% url 'home' %}">
             <input class="form-control me-2" type="search" name="q" placeholder="Search coffee..." aria-label="Search">
             <button class="btn btn-outline-primary" type="submit">Search</button>
@@ -68,7 +68,7 @@
       </div>
     </nav>
 
-    <!-- Carousel for Top-Rated Coffees -->
+    <!-- Carousel -->
     <div id="topRatedCarousel" class="carousel slide my-4" data-bs-ride="carousel">
       <div class="carousel-inner">
         {% for coffee in top_rated_coffees %}
@@ -77,8 +77,6 @@
             <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 p-3 rounded">
               <h5>{{ coffee.name }}</h5>
               <p>${{ coffee.price }} - Origin: {{ coffee.origin }}</p>
-             
-
             </div>
           </div>
         {% endfor %}
@@ -93,33 +91,10 @@
 
     <!-- Page Content -->
     <div class="container my-5">
-      {% block content %}
-      {% endblock %}
+      {% block content %}{% endblock %}
     </div>
 
-    <!-- Chapa Payment Script -->
-    <script src="https://checkout.chapa.co/checkout.js"></script>
-    <script>
-      function payWithChapa(options) {
-        ChapaCheckout({
-          publicKey: "{{ chapa_public_key }}",  // Pass this from your Django view
-          tx_ref: options.tx_ref,
-          amount: options.amount,
-          currency: "ETB",
-          email: options.email,
-          first_name: options.first_name,
-          last_name: options.last_name,
-          phone_number: options.phone,
-          callback_url: options.callback_url,
-          return_url: options.return_url,
-          customization: {
-            title: "Feel Good Coffee",
-            description: "Payment for your coffee order"
-          }
-        });
-      }
-    </script>
-
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
