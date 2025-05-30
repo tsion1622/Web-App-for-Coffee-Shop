@@ -2,7 +2,8 @@
 {% block content %}
 <div class="container mt-4">
   <h2>Payment Successful</h2>
-  <p>Thank you! Your payment status is: <strong>{{ payment_status }}</strong></p>
+  <p>Thank you! Your payment status is: <strong>{{ payment_data.status }}</strong></p>
+  <p>Transaction Reference: <strong>{{ payment_data.tx_ref }}</strong></p>
   <a href="{% url 'home' %}" class="btn btn-primary">Back to Home</a>
 </div>
 {% endblock %}
