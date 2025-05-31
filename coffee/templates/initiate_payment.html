@@ -33,7 +33,14 @@
   document.getElementById('paymentForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const txRef = 'chapa-' + Date.now();
+    if (typeof ChapaCheckout !== 'function') {
+      alert("Chapa is not ready. Please try again.");
+      return;
+    }
+
+    const txRef = 'chapa-' + Date.now() + '-' + Math.floor(Math.random() * 1000000);
+    console.log("Generated tx_ref:", txRef);
+
     const amount = document.getElementById('amount').value;
     const email = document.getElementById('email').value;
     const firstName = document.getElementById('first_name').value;
@@ -49,11 +56,22 @@
       first_name: firstName,
       last_name: lastName,
       phone_number: phone,
-      callback_url: "{{ callback_url }}",
-      return_url: "{{ return_url }}",
+      callback_url: "{{ callback_url|escapejs }}",
+      return_url: "{{ return_url|escapejs }}",
       customization: {
         title: "Feel Good Coffee",
         description: "Payment for your coffee order"
+      },
+      onclose: function () {
+        console.log("Payment window closed");
+      },
+      callback: function(response) {
+        console.log("Payment response:", response);
+        if (response.status === "success") {
+          window.location.href = "{{ callback_url|escapejs }}";
+        } else {
+          window.location.href = "{{ return_url|escapejs }}";
+        }
       }
     });
   });
