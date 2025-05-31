@@ -1,7 +1,13 @@
-<h2>Payment Failed</h2>
-<p>Sorry, your payment could not be verified.</p>
-<p>Error: {{ error }}</p>
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Payment Failed</h2>
+  <p>Sorry, your payment could not be verified.</p>
+  <p>Error: {{ error }}</p>
 
-{% if details %}
-  <pre>{{ details|json_script:"error-details" }}</pre>
-{% endif %}
+  {% if details %}
+    <pre>{{ details|json_script:"error-details" }}</pre>
+  {% endif %}
+  <a href="{% url 'home' %}" class="btn btn-primary mt-3">Back to Home</a>
+</div>
+{% endblock %}
